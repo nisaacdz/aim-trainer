@@ -3,11 +3,11 @@ import { accuracySteps, largestRingSize, totalTargets } from "../util";
 
 const initialState = {
   startTime: null,
-  speed: 0, // Average time per successful hit in ms
-  accuracy: 0, // Percentage of successful hits
+  speed: 0,
+  accuracy: 0,
   totalTargets: totalTargets,
-  totalClicks: 0, // All clicks including misses
-  currentTargetCount: 0, // Successful hits
+  totalClicks: 0,
+  currentTargetCount: 0,
   currentTargetPosition: { x: 0, y: 0 },
   endTime: null,
   autoStopper: null,
@@ -23,8 +23,8 @@ const useTrainerSession = (trainerBoardRef) => {
     const maxY = trainerBoardRef.current.clientHeight - largestRingSize;
 
     return {
-      x: Math.max(0, Math.floor(Math.random() * maxX)),
-      y: Math.max(0, Math.floor(Math.random() * maxY)),
+      x: Math.random() * maxX,
+      y: Math.random() * maxY,
     };
   };
 
@@ -35,12 +35,11 @@ const useTrainerSession = (trainerBoardRef) => {
     const elapsedTime = currentTime - trainerState.startTime;
     const maxDistance = largestRingSize / 2;
 
-    // Calculate accuracy for this hit
     let currentAccuracy = 0;
     if (distance <= maxDistance) {
       const aStep = Math.floor(distance / accuracySteps);
       const maxAStep = Math.ceil(maxDistance / accuracySteps);
-      currentAccuracy = 50 + ((maxAStep - aStep) * 50) / maxAStep;
+      currentAccuracy = 70 + ((maxAStep - aStep) * 30) / maxAStep;
     } else {
       const maxDisplacement =
         Math.max(
@@ -50,25 +49,20 @@ const useTrainerSession = (trainerBoardRef) => {
       currentAccuracy = 50 - (distance * 50) / maxDisplacement;
     }
 
-    // Calculate new stats
     const newTotalClicks = trainerState.totalClicks + 1;
     const newTargetCount =
       distance <= maxDistance
         ? trainerState.currentTargetCount + 1
         : trainerState.currentTargetCount;
 
-    // Update overall accuracy based on all clicks
     const newAccuracy =
       (trainerState.accuracy * trainerState.totalClicks + currentAccuracy) /
       newTotalClicks;
 
-    // Calculate average speed (time per successful hit)
     const newSpeed = newTargetCount > 0 ? elapsedTime / newTargetCount : 0;
 
-    // Check if session should end
     const endTime = newTargetCount === totalTargets ? currentTime : null;
 
-    // Generate new target position if hit was successful
     const newTargetPosition =
       distance <= maxDistance
         ? generateRandomPosition()
@@ -92,8 +86,8 @@ const useTrainerSession = (trainerBoardRef) => {
       ...initialState,
       startTime: new Date(),
       currentTargetPosition: {
-        x: Math.floor(trainerBoardRef.current.clientWidth / 2),
-        y: Math.floor(trainerBoardRef.current.clientHeight / 2),
+        x: trainerBoardRef.current.clientWidth / 2 - largestRingSize / 2,
+        y: trainerBoardRef.current.clientHeight / 2 - largestRingSize / 2,
       },
       autoStopper: setTimeout(endSession, 90000),
     });

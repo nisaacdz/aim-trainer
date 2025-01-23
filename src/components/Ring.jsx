@@ -18,7 +18,6 @@ const Ring = () => {
             right: `${(largestRingSize - size) / 2}px`,
             borderRadius: "50%",
             boxSizing: "border-box",
-            opacity: 0.64,
             borderWidth: `${ringThickness}px`,
             zIndex: i,
           }}
@@ -41,6 +40,28 @@ const Ring = () => {
       }}
     >
       {renderRings()}
+      <div
+        style={{
+          position: "absolute",
+          top: "0",
+          left: "50%",
+          width: "2px",
+          height: "100%",
+          transform: "translateX(-50%)",
+        }}
+        className="bg-secondary-foreground"
+      ></div>
+      <div
+        style={{
+          position: "absolute",
+          top: "50%",
+          left: "0",
+          width: "100%",
+          height: "2px",
+          transform: "translateY(-50%)",
+        }}
+        className="bg-secondary-foreground"
+      ></div>
     </div>
   );
 };
