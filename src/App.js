@@ -6,23 +6,19 @@ import "./App.css";
 
 function App() {
   const trainerBoardRef = useRef();
-  const {
-    trainerState,
-    handleScore,
-    restartSession,
-    endSession,
-  } = useTrainerSession(trainerBoardRef);
+  const { trainerState, handleScore, restartSession, endSession } =
+    useTrainerSession(trainerBoardRef);
 
   return (
     <div className="w-screen h-screen grid grid-cols-5">
-      <div className="col-span-1 bg-gray-800">
+      <div className="col-span-1">
         <TrainerStats
           trainerState={trainerState}
           restartSession={restartSession}
           endSession={endSession}
         />
       </div>
-      <div className="col-span-4 bg-gray-900" ref={trainerBoardRef}>
+      <div className="col-span-4" ref={trainerBoardRef}>
         <TrainerBoard
           handleScore={handleScore}
           startTime={trainerState.startTime}

@@ -14,30 +14,25 @@ const computeDistance = (event, divRef) => {
   return distance;
 };
 
-const TargetRing = ({ clickResult }) => {
+const TargetRing = ({ clickResult, boardRef }) => {
   const divRef = useRef(null);
 
   useEffect(() => {
+    const board = boardRef.current;
     const handleClick = (event) => {
       const distance = computeDistance(event, divRef);
       clickResult(distance);
     };
-    const element = divRef.current;
-    if (element) {
-      element.addEventListener("click", handleClick);
-    }
+    board.addEventListener("click", handleClick);
 
     return () => {
-      if (element) {
-        element.removeEventListener("click", handleClick);
-      }
+      board.removeEventListener("click", handleClick);
     };
-  }, [clickResult]);
+  }, [clickResult, boardRef]);
 
   return (
     <div
       ref={divRef}
-      className="w-auto h-auto"
       style={{
         width: `${largestRingSize}px`,
         height: `${largestRingSize}px`,

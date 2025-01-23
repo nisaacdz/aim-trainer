@@ -3,13 +3,14 @@ import { accuracySteps, largestRingSize, totalTargets } from "../util";
 
 const initialState = {
   startTime: null,
-  speed: 0,          // Average time per successful hit in ms
-  accuracy: 0,       // Percentage of successful hits
+  speed: 0, // Average time per successful hit in ms
+  accuracy: 0, // Percentage of successful hits
   totalTargets: totalTargets,
-  totalClicks: 0,    // All clicks including misses
+  totalClicks: 0, // All clicks including misses
   currentTargetCount: 0, // Successful hits
   currentTargetPosition: { x: 0, y: 0 },
   endTime: null,
+  autoStopper: null,
 };
 
 const useTrainerSession = (trainerBoardRef) => {
@@ -17,13 +18,13 @@ const useTrainerSession = (trainerBoardRef) => {
 
   const generateRandomPosition = () => {
     if (!trainerBoardRef.current) return { x: 0, y: 0 };
-    
+
     const maxX = trainerBoardRef.current.clientWidth - largestRingSize;
     const maxY = trainerBoardRef.current.clientHeight - largestRingSize;
-    
+
     return {
       x: Math.max(0, Math.floor(Math.random() * maxX)),
-      y: Math.max(0, Math.floor(Math.random() * maxY))
+      y: Math.max(0, Math.floor(Math.random() * maxY)),
     };
   };
 
@@ -32,25 +33,35 @@ const useTrainerSession = (trainerBoardRef) => {
 
     const currentTime = new Date();
     const elapsedTime = currentTime - trainerState.startTime;
-    const maxDistance = largestRingSize;
-    
+    const maxDistance = largestRingSize / 2;
+
     // Calculate accuracy for this hit
     let currentAccuracy = 0;
     if (distance <= maxDistance) {
       const aStep = Math.floor(distance / accuracySteps);
       const maxAStep = Math.ceil(maxDistance / accuracySteps);
       currentAccuracy = 50 + ((maxAStep - aStep) * 50) / maxAStep;
+    } else {
+      const maxDisplacement =
+        Math.max(
+          trainerBoardRef.current.clientWidth,
+          trainerBoardRef.current.clientHeight,
+        ) - largestRingSize;
+      currentAccuracy = 50 - (distance * 50) / maxDisplacement;
     }
 
     // Calculate new stats
     const newTotalClicks = trainerState.totalClicks + 1;
-    const newTargetCount = distance <= maxDistance ? 
-      trainerState.currentTargetCount + 1 : 
-      trainerState.currentTargetCount;
-    
+    const newTargetCount =
+      distance <= maxDistance
+        ? trainerState.currentTargetCount + 1
+        : trainerState.currentTargetCount;
+
     // Update overall accuracy based on all clicks
-    const newAccuracy = (trainerState.accuracy * trainerState.totalClicks + currentAccuracy) / newTotalClicks;
-    
+    const newAccuracy =
+      (trainerState.accuracy * trainerState.totalClicks + currentAccuracy) /
+      newTotalClicks;
+
     // Calculate average speed (time per successful hit)
     const newSpeed = newTargetCount > 0 ? elapsedTime / newTargetCount : 0;
 
@@ -58,9 +69,10 @@ const useTrainerSession = (trainerBoardRef) => {
     const endTime = newTargetCount === totalTargets ? currentTime : null;
 
     // Generate new target position if hit was successful
-    const newTargetPosition = distance <= maxDistance ? 
-      generateRandomPosition() : 
-      trainerState.currentTargetPosition;
+    const newTargetPosition =
+      distance <= maxDistance
+        ? generateRandomPosition()
+        : trainerState.currentTargetPosition;
 
     setTrainerState({
       ...trainerState,
@@ -83,14 +95,18 @@ const useTrainerSession = (trainerBoardRef) => {
         x: Math.floor(trainerBoardRef.current.clientWidth / 2),
         y: Math.floor(trainerBoardRef.current.clientHeight / 2),
       },
+      autoStopper: setTimeout(endSession, 90000),
     });
   };
 
   const endSession = () => {
-    setTrainerState(prevState => ({
-      ...prevState,
-      endTime: new Date(),
-    }));
+    setTrainerState((prevState) => {
+      clearTimeout(prevState.autoStopper);
+      return {
+        ...prevState,
+        endTime: new Date(),
+      };
+    });
   };
 
   return {

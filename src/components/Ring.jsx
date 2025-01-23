@@ -1,4 +1,4 @@
-import { ringThickness, largestRingSize, ringColors } from "../util";
+import { ringThickness, largestRingSize, totalRings } from "../util";
 
 const Ring = () => {
   const renderRings = () => {
@@ -6,7 +6,7 @@ const Ring = () => {
     let size = largestRingSize;
 
     // Generate concentric rings
-    for (let i = 0; i < ringColors.length; i++) {
+    for (let i = 0; i < totalRings; i++) {
       rings.push(
         <div
           key={i}
@@ -14,16 +14,19 @@ const Ring = () => {
             position: "absolute",
             top: `${(largestRingSize - size) / 2}px`,
             left: `${(largestRingSize - size) / 2}px`,
-            width: `${size}px`,
-            height: `${size}px`,
-            backgroundColor: ringColors[i],
+            bottom: `${(largestRingSize - size) / 2}px`,
+            right: `${(largestRingSize - size) / 2}px`,
             borderRadius: "50%",
+            boxSizing: "border-box",
+            opacity: 0.64,
+            borderWidth: `${ringThickness}px`,
             zIndex: i,
           }}
-        ></div>
+          className="border-secondary-foreground"
+        ></div>,
       );
 
-      size -= 2 * ringThickness; // Decrease size for the next inner ring
+      size -= 4 * ringThickness;
     }
 
     return rings;

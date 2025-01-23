@@ -9,6 +9,7 @@ const TrainerBoard = ({
   currentTargetPosition,
 }) => {
   const targetRef = useRef(null);
+  const boardRef = useRef(null);
 
   const targetClickResult = (distance) => {
     handleScore(distance);
@@ -24,14 +25,25 @@ const TrainerBoard = ({
   }, [currentTargetPosition, endTime, startTime]);
 
   return (
-    <div className="relative w-full h-full bg-yellow-300 overflow-hidden graph-background">
-      {currentTargetPosition && <div
-        ref={targetRef}
-        className={`bg-red-500 rounded-full absolute`}
-        style={{ top: currentTargetPosition.y, left: currentTargetPosition.x, display: "none", width: largestRingSize, height: largestRingSize }}
-      >
-        <TargetRing clickResult={targetClickResult} />
-      </div>}
+    <div
+      className="relative w-full h-full overflow-hidden graph-background bg-primary-background"
+      ref={boardRef}
+    >
+      {currentTargetPosition && (
+        <div
+          ref={targetRef}
+          className={`absolute`}
+          style={{
+            top: currentTargetPosition.y,
+            left: currentTargetPosition.x,
+            display: "none",
+            width: largestRingSize,
+            height: largestRingSize,
+          }}
+        >
+          <TargetRing clickResult={targetClickResult} boardRef={boardRef} />
+        </div>
+      )}
     </div>
   );
 };

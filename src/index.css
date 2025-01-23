@@ -2,6 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --primary-background: rgb(245, 245, 245);
+  --secondary-background: rgb(225, 225, 225);
+  --primary-foreground: rgb(30, 41, 59);
+  --secondary-foreground: rgb(107, 114, 128);
+  --accent-foreground: rgb(37, 99, 235);
+
+  --graph-line-color: rgba(0, 0, 0, 0.05);
+  --graph-vertex-color: rgba(30, 41, 59, 0.1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --primary-background: rgb(20, 20, 20);
+    --secondary-background: rgb(35, 35, 35);
+    --primary-foreground: rgb(229, 231, 235);
+    --secondary-foreground: rgb(156, 163, 175);
+    --accent-foreground: rgb(59, 130, 246);
+
+    --graph-line-color: rgba(128, 128, 128, 0.05);
+    --graph-vertex-color: rgba(229, 231, 235, 0.1);
+  }
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
