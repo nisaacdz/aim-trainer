@@ -33,13 +33,13 @@ const useTrainerSession = (trainerBoardRef) => {
 
     const currentTime = new Date();
     const elapsedTime = currentTime - trainerState.startTime;
-    const maxDistance = largestRingSize / 2;
+    const maxDistance = Math.ceil(largestRingSize / 2);
 
     let currentAccuracy = 0;
     if (distance <= maxDistance) {
       const aStep = Math.floor(distance / accuracySteps);
       const maxAStep = Math.ceil(maxDistance / accuracySteps);
-      currentAccuracy = 70 + ((maxAStep - aStep) * 30) / maxAStep;
+      currentAccuracy = 75 + ((maxAStep - aStep) * 25) / maxAStep;
     } else {
       const maxDisplacement =
         Math.max(
@@ -61,7 +61,12 @@ const useTrainerSession = (trainerBoardRef) => {
 
     const newSpeed = newTargetCount > 0 ? elapsedTime / newTargetCount : 0;
 
-    const endTime = newTargetCount === totalTargets ? currentTime : null;
+    let endTime = null;
+
+    if (newTargetCount === totalTargets) {
+      endTime = currentTime;
+      clearTimeout(trainerState.autoStopper);
+    }
 
     const newTargetPosition =
       distance <= maxDistance
@@ -94,8 +99,8 @@ const useTrainerSession = (trainerBoardRef) => {
   };
 
   const endSession = () => {
+    clearTimeout(trainerState.autoStopper);
     setTrainerState((prevState) => {
-      clearTimeout(prevState.autoStopper);
       return {
         ...prevState,
         endTime: new Date(),

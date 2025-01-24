@@ -12,11 +12,11 @@ const TrainerStats = ({ trainerState, restartSession, endSession }) => {
         </h2>
 
         {/* Stats Grid */}
-        <div className="grid gap-4">
+        <div className="grid gap-6 md:gap-4">
           {/* Accuracy */}
-          <div className="grid grid-cols-2 items-center gap-4">
+          <div className="flex flex-col md:grid md:grid-cols-2 items-center gap-2 md:gap-4">
             <label className="font-medium text-primary-foreground">
-              Accuracy:
+              AVRG Accuracy:
             </label>
             <span className="text-right text-secondary-foreground">
               {trainerState.accuracy.toFixed(2)}%
@@ -25,7 +25,7 @@ const TrainerStats = ({ trainerState, restartSession, endSession }) => {
 
           {/* Speed */}
           <div
-            className="grid grid-cols-2 items-center gap-4"
+            className="flex flex-col md:grid md:grid-cols-2 items-center gap-2 md:gap-4"
             title="Average Response Time"
           >
             <label className="font-medium text-primary-foreground">ART:</label>
@@ -35,7 +35,7 @@ const TrainerStats = ({ trainerState, restartSession, endSession }) => {
           </div>
 
           {/* Targets */}
-          <div className="grid grid-cols-2 items-center gap-4">
+          <div className="flex flex-col md:grid md:grid-cols-2 items-center gap-2 md:gap-4">
             <label className="font-medium text-primary-foreground">
               Targets Left:
             </label>

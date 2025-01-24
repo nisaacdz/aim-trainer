@@ -23,10 +23,10 @@ const TargetRing = ({ clickResult, boardRef }) => {
       const distance = computeDistance(event, divRef);
       clickResult(distance);
     };
-    board.addEventListener("click", handleClick);
+    board.addEventListener("mousedown", handleClick);
 
     return () => {
-      board.removeEventListener("click", handleClick);
+      board.removeEventListener("mousedown", handleClick);
     };
   }, [clickResult, boardRef]);
 

@@ -37,6 +37,8 @@ const Ring = () => {
       style={{
         width: `${largestRingSize}px`,
         height: `${largestRingSize}px`,
+        borderRadius: "50%",
+        cursor: "pointer",
       }}
     >
       {renderRings()}
