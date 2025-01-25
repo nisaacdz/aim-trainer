@@ -10,7 +10,7 @@ function App() {
     useTrainerSession(trainerBoardRef);
 
   return (
-    <div className="w-screen h-screen grid grid-cols-5">
+    <div className="w-screen h-screen grid grid-cols-5 overflow-hidden">
       <div className="col-span-1">
         <TrainerStats
           trainerState={trainerState}

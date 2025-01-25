@@ -11,6 +11,7 @@ const initialState = {
   currentTargetPosition: { x: 0, y: 0 },
   endTime: null,
   autoStopper: null,
+  score: null,
 };
 
 const useTrainerSession = (trainerBoardRef) => {
@@ -62,9 +63,16 @@ const useTrainerSession = (trainerBoardRef) => {
     const newSpeed = newTargetCount > 0 ? elapsedTime / newTargetCount : 0;
 
     let endTime = null;
+    let score = null;
 
     if (newTargetCount === totalTargets) {
       endTime = currentTime;
+      // Assuming the board size did not change during the game session
+      const sizeQuotient = Math.sqrt(
+        Math.pow(trainerBoardRef.current.clientWidth, 2) +
+          Math.pow(trainerBoardRef.current.clientHeight, 2),
+      );
+      score = (100 * sizeQuotient * newAccuracy) / Math.pow(newSpeed, 1.5);
       clearTimeout(trainerState.autoStopper);
     }
 
@@ -81,6 +89,7 @@ const useTrainerSession = (trainerBoardRef) => {
       currentTargetCount: newTargetCount,
       currentTargetPosition: newTargetPosition,
       endTime,
+      score,
     });
   };
 

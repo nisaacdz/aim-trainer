@@ -43,6 +43,16 @@ const TrainerStats = ({ trainerState, restartSession, endSession }) => {
               {trainerState.totalTargets - trainerState.currentTargetCount}
             </span>
           </div>
+          {trainerState.score && (
+            <div className="flex flex-col md:grid md:grid-cols-2 items-center gap-2 md:gap-4 text-lg bg-primary-background rounded-md">
+              <label className="font-medium text-primary-foreground">
+                Final Score:
+              </label>
+              <span className="text-right text-secondary-foreground">
+                {trainerState.score.toFixed(0)}
+              </span>
+            </div>
+          )}
 
           {/* Time */}
           <div className="grid grid-cols-1 items-center gap-4">
@@ -67,7 +77,11 @@ const TrainerStats = ({ trainerState, restartSession, endSession }) => {
               }
             `}
           >
-            {!isSessionInactive ? "Stop" : "Start"}
+            {!isSessionInactive
+              ? "Stop"
+              : trainerState.score
+                ? "Restart"
+                : "Start"}
           </button>
         </div>
       </div>
