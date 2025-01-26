@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/aim-trainer/static/css/main.4f6315bf.css",
-    "main.js": "/aim-trainer/static/js/main.90689fcd.js",
+    "main.css": "/aim-trainer/static/css/main.7e990350.css",
+    "main.js": "/aim-trainer/static/js/main.fd490fe1.js",
     "static/js/488.b22575c6.chunk.js": "/aim-trainer/static/js/488.b22575c6.chunk.js",
     "index.html": "/aim-trainer/index.html",
-    "main.4f6315bf.css.map": "/aim-trainer/static/css/main.4f6315bf.css.map",
-    "main.90689fcd.js.map": "/aim-trainer/static/js/main.90689fcd.js.map",
+    "main.7e990350.css.map": "/aim-trainer/static/css/main.7e990350.css.map",
+    "main.fd490fe1.js.map": "/aim-trainer/static/js/main.fd490fe1.js.map",
     "488.b22575c6.chunk.js.map": "/aim-trainer/static/js/488.b22575c6.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.4f6315bf.css",
-    "static/js/main.90689fcd.js"
+    "static/css/main.7e990350.css",
+    "static/js/main.fd490fe1.js"
   ]
 }
