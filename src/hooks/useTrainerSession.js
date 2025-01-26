@@ -72,7 +72,7 @@ const useTrainerSession = (trainerBoardRef) => {
         Math.pow(trainerBoardRef.current.clientWidth, 2) +
           Math.pow(trainerBoardRef.current.clientHeight, 2),
       );
-      score = (100 * sizeQuotient * newAccuracy) / Math.pow(newSpeed, 1.5);
+      score = (100 * sizeQuotient * newAccuracy) / Math.pow(newSpeed, 2);
       clearTimeout(trainerState.autoStopper);
     }
 

@@ -44,7 +44,7 @@ const TrainerStats = ({ trainerState, restartSession, endSession }) => {
             </span>
           </div>
           {trainerState.score && (
-            <div className="flex flex-col md:grid md:grid-cols-2 items-center gap-2 md:gap-4 text-lg bg-primary-background rounded-md">
+            <div className="flex flex-col md:grid md:grid-cols-2 p-2 items-center gap-2 md:gap-4 text-lg bg-primary-background rounded-md">
               <label className="font-medium text-primary-foreground">
                 Final Score:
               </label>
